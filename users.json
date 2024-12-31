@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nombre": "Carlos Castillo",
+    "email": "carcastillo@gmail.com",
+    "preferencias": "Feid"
+  },
+  {
+    "id": 2,
+    "nombre": "Karen Castillo",
+    "email": "karcastillo@gmail.com",
+    "preferencias": "Bad Bunny"
+  },
+  {
+    "id": 3,
+    "nombre": "Cristhian Castillo",
+    "email": "criscas@gmail.com",
+    "preferencias": "Myke Towers"
+  },
+  {
+    "id": 4,
+    "nombre": "Thalia Mijas",
+    "email": "tlmijas@gmail.com",
+    "preferencias": "Shawn Mendes"
+  },
+  {
+    "id": 5,
+    "nombre": "Jhonatan Mijas",
+    "email": "jhonamijas@gmail.com",
+    "preferencias": "Daddy Yankee"
+  },
+  {
+    "id": 6,
+    "nombre": "Jaime Mijas",
+    "email": "jamijas@gmail.com",
+    "preferencias": "Juan Duque"
+  }
+]
