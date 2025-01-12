@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, EmailStr
 import json
 import requests
@@ -30,7 +30,7 @@ def crear_usuario(usuario: Usuario):
        usuarios = []
 
   if any(u['email'] == usuario.email for u in usuarios):
-    raise HTTPException(status_code=400, detail="Este email ya existe")
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Este email ya existe")
   
   if (len(usuarios) == 0):
     cont = 1
@@ -49,7 +49,7 @@ def crear_usuario(usuario: Usuario):
   with open(JSON_PATH, "w") as file:
         json.dump(usuarios, file, indent=4)
 
-  return {"message": "Usuario creado", "usuario": nuevo_usuario}
+  return {"detail": "Usuario creado", "usuario": nuevo_usuario}
 
 #Visualizacion de usuarios
 @app.get('/api/users')
@@ -76,7 +76,7 @@ def listar_usuario(id: int):
   try:
      usuario_index = [usuario['id'] for usuario in usuarios].index(id)
   except:
-     raise HTTPException(status_code=404, detail="Usuario no existe")
+     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuario no existe")
 
   return {"usuario": usuarios[usuario_index]}
 
@@ -91,12 +91,12 @@ def actualizar_usuarios(id: int, usuario: Usuario):
        usuarios = []
   
   if any(u['email'] == usuario.email for u in usuarios):  #for u in users:
-    raise HTTPException(status_code=400, detail="Este email ya existe")
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Este email ya existe")
   
   try:
      usuario_index = [usuario['id'] for usuario in usuarios].index(id)
   except:
-     raise HTTPException(status_code=404, detail="Usuario no existe")
+     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuario no existe")
 
   usuarios[usuario_index] = {
     "id": id,
@@ -108,7 +108,7 @@ def actualizar_usuarios(id: int, usuario: Usuario):
   with open(JSON_PATH, "w") as file:
         json.dump(usuarios, file, indent=4)
 
-  return {"message": "Usuario actualizado"}
+  return {"detail": "Usuario actualizado"}
 
 #Eliminacion de un usuario
 @app.delete("/api/users/{id}")
@@ -123,14 +123,14 @@ def eliminar_usuario(id: int):
   try:
      usuario_index = [usuario['id'] for usuario in usuarios].index(id)
   except:
-     raise HTTPException(status_code=404, detail="Usuario no existe")
+     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuario no existe")
 
   usuarios.pop(usuario_index)
 
   with open(JSON_PATH, "w") as file:
         json.dump(usuarios, file, indent=4)
 
-  return {"message": "Usuario eliminado"}
+  return {"detail": "Usuario eliminado"}
 
 #Consulta a spotify a partir de las preferencias de los usuarios
 @app.get("/api/users/{id}/recommendations")
@@ -145,7 +145,7 @@ def spotify_info(id: int):
   try:
      usuario_index = [usuario['id'] for usuario in usuarios].index(id)
   except:
-     raise HTTPException(status_code=404, detail="Usuario no existe")
+     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuario no existe")
   
   artista_fav = usuarios[usuario_index]['preferencias']
 
@@ -182,7 +182,7 @@ def spotify_info(id: int):
   try:
     art_index = [art for art in nombres_artista].index(artista_fav)
   except:
-     raise HTTPException(status_code=404, detail="Artista no tiene nuevos lanzamientos")  
+     raise HTTPException(status_code=status.HTTP_200_OK, detail="Artista no tiene nuevos lanzamientos")  
 
   info = {
      'artista': nombres_artista[art_index],
