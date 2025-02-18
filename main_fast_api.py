@@ -16,6 +16,7 @@ class Usuario(BaseModel):
 
 usuarios = []
 
+#Documentos para almacenar usuarios y la respuesta de la API
 JSON_PATH = 'users.json'
 JSON_PATH2 = 'res.json'
 
@@ -82,7 +83,7 @@ def listar_usuario(id: int):
 
 #Actualizacion de un usuario
 @app.put('/api/users/{id}')
-def actualizar_usuarios(id: int, usuario: Usuario):
+def actualizar_usuario(id: int, usuario: Usuario):
   
   try:
       with open(JSON_PATH, "r") as file:
@@ -191,7 +192,7 @@ def spotify_info(id: int):
      'canciones': response[art_index]['total_tracks']
   }
 
-  with open(JSON_PATH2, "w") as file: #se creo archivo JSON para verificar la informacion entregada por la API
+  with open(JSON_PATH2, "w") as file: #se creo archivo JSON para verificar la informacion entregada por la web API Spotify
         json.dump(response, file, indent=4)
   
   return {"Usuario": usuarios[usuario_index], "Spotify": info}
